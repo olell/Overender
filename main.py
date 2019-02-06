@@ -1,5 +1,12 @@
 import argparse
+
 from overender.overpass import request_json
+from overender.bbox import BoundingBox
+from overender.renderer import render
+from overender.style_config import DefaultStyle
+
+from PIL import Image
+from PIL import ImageDraw
 
 # Argument Parsing
 parser = argparse.ArgumentParser()
@@ -13,11 +20,25 @@ with open(args.query, 'r') as target:
 
 # BBOX Loading
 ## Hawerkamp 31
-bbox = [7.637615442,51.9430635895,7.6400723455,51.9447897396]
-bbox = bbox[1], bbox[0], bbox[3], bbox[2] # Convert format from lat lon to lon lat and vice versa
+bbox = BoundingBox(7.632623,51.942678,7.650433,51.952412, resolution=50000)
 
 # Loading data from OSM
-data = request_json(query, bbox)
+print("Start quering overpass API")
+data = request_json(query, bbox, use_cache=True)
+print("Overpass query done...")
 
-for element in data:
-    pass
+# Creating image and draw
+style = DefaultStyle
+
+width, height = bbox.get_pixel_size()
+image = Image.new('RGB', (width, height), style.background_color)
+draw = ImageDraw.Draw(image)
+
+print("Start rendering")
+for element in data["elements"]:
+    render(element, draw, style, bbox)
+print("Rendering done...")
+
+print("Start saving")
+image.save("out.png", "PNG")
+print("Done...")

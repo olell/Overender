@@ -1,0 +1,7 @@
+[out:json];
+
+way({sbbox});
+out geom;
+
+node({sbbox});
+out geom;

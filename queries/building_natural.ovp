@@ -1,0 +1,7 @@
+[out:json];
+
+way["building"]({sbbox});
+out geom;
+
+way["natural"]({sbbox});
+out geom;
