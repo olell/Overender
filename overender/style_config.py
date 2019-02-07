@@ -10,3 +10,7 @@ class DefaultStyle(StyleConfig):
 
     natural_fill = (30, 100, 30)
     natural_border = None #(255, 255, 255)
+
+    tree_fill = (50, 100, 50)
+    tree_border = None
+    tree_radius = 3

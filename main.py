@@ -4,9 +4,7 @@ from overender.overpass import request_json
 from overender.bbox import BoundingBox
 from overender.renderer import render
 from overender.style_config import DefaultStyle
-
-from PIL import Image
-from PIL import ImageDraw
+from overender.draw import Draw
 
 # Argument Parsing
 parser = argparse.ArgumentParser()
@@ -20,7 +18,7 @@ with open(args.query, 'r') as target:
 
 # BBOX Loading
 ## Hawerkamp 31
-bbox = BoundingBox(7.632623,51.942678,7.650433,51.952412, resolution=50000)
+bbox = BoundingBox(7.632623,51.942678,7.650433,51.952412, resolution=100000)
 
 # Loading data from OSM
 print("Start quering overpass API")
@@ -31,14 +29,13 @@ print("Overpass query done...")
 style = DefaultStyle
 
 width, height = bbox.get_pixel_size()
-image = Image.new('RGB', (width, height), style.background_color)
-draw = ImageDraw.Draw(image)
+draw = Draw(width, height, style)
 
-print("Start rendering")
+print("MAP Start rendering")
 for element in data["elements"]:
     render(element, draw, style, bbox)
-print("Rendering done...")
+print("MAP Rendering done...")
 
-print("Start saving")
-image.save("out.png", "PNG")
-print("Done...")
+print("Image start rendering")
+draw.render("out.svg", "SVG")
+print("Image rendered")

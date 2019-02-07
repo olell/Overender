@@ -1,0 +1,29 @@
+<svg 
+    width="{{draw.width}}"
+    height="{{draw.height}}">
+
+{# Background #}
+<rect x="0" y="0" width="{{draw.width+1}}" height="{{draw.height+1}}" style="background-color: {{conv(draw.style.background_color)}}"/>
+
+{% for feature in draw.features %}
+
+    {% if feature.type == "polygon" %}
+
+        <polygon
+            points="{% for point in feature.points %}{{point[0]}},{{point[1]}} {% endfor %}"
+            style="fill:{{conv(feature.fill)}}; stroke:{{conv(feature.outline)}};"
+        />
+
+    {% elif feature.type == "ellipse" %}
+
+        <ellipse
+            cx="{{feature.box[0] + ((feature.box[2] - feature.box[0]) / 2)}}" cy="{{feature.box[1] + ((feature.box[3] - feature.box[1]) / 2)}}"
+            rx="{{(feature.box[2] - feature.box[0]) / 2}}" ry="{{(feature.box[3] - feature.box[1]) / 2}}"
+            style="fill:{{conv(feature.fill)}};"
+        />
+
+    {% endif %}
+
+{% endfor %}
+
+</svg>
