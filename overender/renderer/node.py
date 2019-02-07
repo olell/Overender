@@ -1,10 +1,10 @@
-def render_node(node, draw, style_config, bbox):
+def render_node(node, draw):
     if "tags" in node.keys():
         if "natural" in node["tags"].keys():
             if node["tags"]["natural"] == "tree":
-                render_tree(node, draw, style_config, bbox)
+                render_tree(node, draw)
 
-def render_tree(node, draw, style_config, bbox):
-    x, y = bbox.convert(node["lon"], node["lat"])    
-    r = style_config.tree_radius
-    draw.ellipse((x-r, y-r, x+r, y+r), fill=style_config.tree_fill, outline=style_config.tree_border)
+def render_tree(node, draw,):
+    x, y = draw.bbox.convert(node["lon"], node["lat"])    
+    r = draw.style.tree_radius
+    draw.ellipse((x-r, y-r, x+r, y+r), fill=draw.style.tree_fill, outline=draw.style.tree_border)

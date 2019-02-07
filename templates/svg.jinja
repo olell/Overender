@@ -3,7 +3,7 @@
     height="{{draw.height}}">
 
 {# Background #}
-<rect x="0" y="0" width="{{draw.width+1}}" height="{{draw.height+1}}" style="background-color: {{conv(draw.style.background_color)}}"/>
+<rect x="-10" y="-10" width="{{draw.width+10}}" height="{{draw.height+10}}" style="fill:{{conv(draw.style.background_color)}}"/>
 
 {% for feature in draw.features %}
 

@@ -1,0 +1,4 @@
+[out:json];
+
+way[waterway=riverbank]({sbbox});
+out geom;

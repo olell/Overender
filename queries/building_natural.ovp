@@ -5,3 +5,6 @@ out geom;
 
 way["natural"]({sbbox});
 out geom;
+
+node["natural"]({sbbox});
+out geom;

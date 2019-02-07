@@ -18,22 +18,22 @@ with open(args.query, 'r') as target:
 
 # BBOX Loading
 ## Hawerkamp 31
-bbox = BoundingBox(7.632623,51.942678,7.650433,51.952412, resolution=100000)
+bbox = BoundingBox(7.633524,51.940535,7.648072,51.951513, resolution=100000)
 
 # Loading data from OSM
 print("Start quering overpass API")
-data = request_json(query, bbox, use_cache=True)
+data = request_json(query, bbox, use_cache=False)
 print("Overpass query done...")
 
 # Creating image and draw
 style = DefaultStyle
 
 width, height = bbox.get_pixel_size()
-draw = Draw(width, height, style)
+draw = Draw(width, height, style, bbox)
 
 print("MAP Start rendering")
 for element in data["elements"]:
-    render(element, draw, style, bbox)
+    render(element, draw)
 print("MAP Rendering done...")
 
 print("Image start rendering")

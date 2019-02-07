@@ -1,0 +1,10 @@
+[out:json];
+
+node[natural=tree]({sbbox});
+out geom;
+
+way[natural]({sbbox});
+out geom;
+
+way[landuse=grass]({sbbox});
+out geom;

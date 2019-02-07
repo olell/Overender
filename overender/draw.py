@@ -4,28 +4,31 @@ from jinja2 import Template
 
 class Draw(object):
 
-    def __init__(self, width, height, style_config):
+    def __init__(self, width, height, style_config, bbox):
         self.width = width
         self.height = height
 
         self.style = style_config
+        self.bbox = bbox
 
         self.features = []
 
-    def polygon(self, points, fill, outline=None):
+    def polygon(self, geometry, fill, outline=None, z_index=0):
         self.features.append({
             "type": "polygon",
-            "points": points,
+            "points": geometry,
             "fill": fill,
-            "outline": outline
+            "outline": outline,
+            "z_index": z_index
         })
 
-    def ellipse(self, box, fill, outline=None):
+    def ellipse(self, box, fill, outline=None, z_index=0):
         self.features.append({
             "type": "ellipse",
             "box": box,
             "fill": fill,
-            "outline": outline
+            "outline": outline,
+            "z_index": z_index
         })
     
     def render(self, path, image_type):
@@ -49,6 +52,9 @@ class Draw(object):
         return "#%02x%02x%02x" % color
 
     def render_svg(self, path):
+
+        self.features.sort(key=lambda x: x["z_index"])
+
         with open("templates/svg.jinja", 'r') as target:
             template_text = target.read()
         template = Template(template_text)
