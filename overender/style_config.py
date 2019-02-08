@@ -21,6 +21,7 @@ class DefaultStyle(StyleConfig):
     residential_landuse = (224, 223, 223)
     industrial_landuse = (235, 219, 232)
     commercial_landuse = (242, 218, 217)
+    railway_landuse = (235, 219, 232)
     brownfield_landuse = (199, 199, 180)
 
     waterway_fill = (170, 211, 223)

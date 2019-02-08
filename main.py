@@ -6,6 +6,9 @@ from overender.renderer import render
 from overender.style_config import DefaultStyle
 from overender.draw import Draw
 
+import xmltodict
+import json
+
 # Argument Parsing
 parser = argparse.ArgumentParser()
 parser.add_argument("query", help="Path of query")
@@ -18,7 +21,7 @@ with open(args.query, 'r') as target:
 
 # BBOX Loading
 ## Hawerkamp 31
-bbox = BoundingBox(7.634232,51.942003,7.647557,51.950137)
+bbox = BoundingBox(7.633181,51.926908,7.659960,51.951671)
 
 # Loading data from OSM
 print("Start quering overpass API")

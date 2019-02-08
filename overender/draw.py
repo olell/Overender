@@ -31,6 +31,29 @@ class Draw(object):
             "z_index": z_index
         })
     
+    def text(self, x, y, text, fill, z_index=0):
+        self.features.append({
+            "type": "text",
+            "x": x,
+            "y": y,
+            "fill": fill,
+            "text": text,
+            "z_index": z_index
+        })
+        
+    def line(self, x0, y0, x1, y1, fill, width, border, z_index):
+        self.features.append({
+            "type": "line",
+            "x0": x0,
+            "y0": y0,
+            "x1": x1,
+            "y1": y1,
+            "fill": fill,
+            "width": width,
+            "border": border,
+            "z_index": z_index
+        })
+    
     def render(self, path, image_type):
         if image_type != "SVG":
             image = Image.new('RGB', (self.width, self.height), self.style.background_color)

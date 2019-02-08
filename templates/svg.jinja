@@ -22,6 +22,18 @@
             style="fill:{{conv(feature.fill)}};"
         />
 
+    {% elif feature.type == "text" %}
+
+        <text x="{{feature.x}}" y="{{feature.y}}" font-size="3" style="fill:{{conv(feature.fill)}}">{{feature.text}}</text>
+
+    {% elif feature.type == "line" %}
+
+        <line
+            x1="{{feature.x0}}" y1="{{feature.y0}}"
+            x2="{{feature.x1}}" y2="{{feature.y1}}"
+            style="stroke:{{conv(feature.fill)}}; stroke-width:{{feature.width}};"
+        />
+
     {% endif %}
 
 {% endfor %}
