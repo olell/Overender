@@ -2,6 +2,9 @@ from PIL import Image
 from PIL import ImageDraw
 from jinja2 import Template
 
+from cairosvg import svg2png
+from cairosvg import svg2pdf
+
 class Draw(object):
 
     def __init__(self, width, height, style_config, bbox):
@@ -55,26 +58,22 @@ class Draw(object):
         })
     
     def render(self, path, image_type):
-        if image_type != "SVG":
-            image = Image.new('RGB', (self.width, self.height), self.style.background_color)
-            draw = ImageDraw.Draw(image)
-
-            for feature in self.features:
-                if feature["type"] == "polygon":
-                    draw.polygon(feature["points"], fill=feature["fill"], outline=feature["outline"])
-                elif feature["type"] == "ellipse":
-                    draw.ellipse(feature["box"], fill=feature["fill"], outline=feature["outline"])
-
-            image.save(path, "PNG")
-        else:
-            self.render_svg(path)
+        output = self.render_svg()
+        if image_type == "PNG":
+            svg2png(bytestring=output, write_to=path, scale=5)
+        elif image_type == "PDF":
+            svg2pdf(bytestring=output, write_to=path)
+        elif image_type == "SVG":
+            output = self.render_svg()
+            with open(path, "w+") as target:
+                target.write(output)
 
     def _c_hex(self, color):
         if color is None:
-            return "unset"
+            return "transparent"
         return "#%02x%02x%02x" % color
 
-    def render_svg(self, path):
+    def render_svg(self):
 
         self.features.sort(key=lambda x: x["z_index"])
 
@@ -83,5 +82,4 @@ class Draw(object):
         template = Template(template_text)
         output = template.render(draw=self, conv=self._c_hex)
 
-        with open(path, "w+") as target:
-            target.write(output)
+        return output

@@ -6,12 +6,10 @@ from overender.renderer import render
 from overender.style_config import DefaultStyle
 from overender.draw import Draw
 
-import xmltodict
-import json
-
 # Argument Parsing
 parser = argparse.ArgumentParser()
 parser.add_argument("query", help="Path of query")
+parser.add_argument("path", help="Path of the output file")
 
 args = parser.parse_args()
 
@@ -40,5 +38,5 @@ for element in data["elements"]:
 print("MAP Rendering done...")
 
 print("Image start rendering")
-draw.render("out.svg", "SVG")
+draw.render(args.path, args.path.split(".")[-1].upper())
 print("Image rendered")
