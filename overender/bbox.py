@@ -1,25 +1,21 @@
+import utm
+
 class BoundingBox(object):
 
-    def __init__(self, lon0, lat0, lon1, lat1, resolution=300000):
+    def __init__(self, lon0, lat0, lon1, lat1):
         self.lon0 = lon0
         self.lat0 = lat0
         self.lon1 = lon1
         self.lat1 = lat1
 
-        self.factor = 1.75
+        self.x0, self.y0, _, _ = utm.from_latlon(self.lat0, self.lon0)
+        self.x1, self.y1, _, _ = utm.from_latlon(self.lat1, self.lon1)
 
-        self.nla0 = (self.lat0 + 84) * self.factor
-        self.nla1 = (self.lat1 + 84) * self.factor
-        self.nlo0 = (self.lon0 + 180)
-        self.nlo1 = (self.lon1 + 180)
+        self.d_x = self.x1 - self.x0
+        self.d_y = self.y1 - self.y0
 
-        self.resolution = resolution
-
-        self.d_lat = self.nla1 - self.nla0
-        self.d_lon = self.nlo1 - self.nlo0
-
-        self.p_width = int(self.d_lon * self.resolution)
-        self.p_height = int(self.d_lat * self.resolution)
+        self.p_width = self.d_x
+        self.p_height = self.d_y
 
     def as_list(self):
         return [self.lat0, self.lon0, self.lat1, self.lon1]
@@ -31,8 +27,7 @@ class BoundingBox(object):
         return self.p_width, self.p_height
 
     def convert(self, lon, lat):
-        nla = (lat + 84) * self.factor
-        nlo = (lon + 180)
-        x = int((nlo - self.nlo0) * self.resolution)
-        y = self.p_height - int((nla - self.nla0) * self.resolution)
+        x, y, _, _ = utm.from_latlon(lat, lon)
+        x -= self.x0
+        y = self.p_height - (y - self.y0)
         return x, y

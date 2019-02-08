@@ -4,7 +4,10 @@ def render_way(way, draw):
         if "building" in keys:
             render_building(way, draw)
         elif "natural" in keys:
-            render_natural(way, draw)
+            if way["tags"]["natural"] == "water":
+                render_waterway(way, draw)
+            else:
+                render_natural(way, draw)
         elif "amenity" in keys:
             if way["tags"]["amenity"] == "parking":
                 render_parking(way, draw)
