@@ -26,3 +26,6 @@ class DefaultStyle(StyleConfig):
 
     waterway_fill = (170, 211, 223)
     waterway_border = None
+
+    way_fill = (255, 255, 255)
+    way_border = (217, 216, 215)

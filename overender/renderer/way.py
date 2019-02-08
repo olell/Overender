@@ -73,10 +73,11 @@ def render_waterway(way, draw):
     render_polygon(way, draw, draw.style.waterway_fill, draw.style.waterway_border, z_index=-90)
 
 def render_highway(way, draw):
-    for i in range(0, len(way["geometry"]) - 1):
-        x0, y0 = way["geometry"][i]["lon"], way["geometry"][i]["lat"]
-        x1, y1 = way["geometry"][i+1]["lon"], way["geometry"][i+1]["lat"]
-        render_line(draw, x0, y0, x1, y1, (255, 0, 0), 1)
+    points = []
+    for i in range(0, len(way["geometry"])):
+        x, y = draw.bbox.convert(way["geometry"][i]["lon"], way["geometry"][i]["lat"])
+        points.append((x, y))
+    render_polyline(draw, points, draw.style.way_fill, 1)
 
 def render_polygon(way, draw, fill, border=None, z_index=0):
     pixel_points = []
@@ -90,7 +91,5 @@ def render_text(draw, x, y, fill, text, z_index=0):
     x, y = draw.bbox.convert(x, y)
     draw.text(x, y, text, fill=fill, z_index=z_index)
 
-def render_line(draw, x0, y0, x1, y1, fill, width=1, border=None, z_index=0):
-    x0, y0 = draw.bbox.convert(x0, y0)
-    x1, y1 = draw.bbox.convert(x1, y1)
-    draw.line(x0, y0, x1, y1, fill, width, border, z_index)
+def render_polyline(draw, points, fill, width=1, border=None, z_index=0):
+    draw.polyline(points, fill, width, border, z_index)

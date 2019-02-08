@@ -44,13 +44,10 @@ class Draw(object):
             "z_index": z_index
         })
         
-    def line(self, x0, y0, x1, y1, fill, width, border, z_index):
+    def polyline(self, points, fill, width, border, z_index):
         self.features.append({
-            "type": "line",
-            "x0": x0,
-            "y0": y0,
-            "x1": x1,
-            "y1": y1,
+            "type": "polyline",
+            "points": points,
             "fill": fill,
             "width": width,
             "border": border,
